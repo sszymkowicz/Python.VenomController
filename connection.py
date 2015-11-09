@@ -5,16 +5,7 @@ from frame import Frame
 
 class Connect(object):
     def __init__(self):
-        try:
-            self.connection = serial.Serial(
-                port='\\.\COM3',
-                baudrate=9600,
-                parity=serial.PARITY_NONE,
-                stopbits=serial.STOPBITS_ONE,
-                bytesize=serial.EIGHTBITS
-            )
-        except serial.SerialException:
-            print("Could not open port COM3.")
+        self.connection = serial.Serial()
 
     '''
     bufor = []
@@ -43,6 +34,24 @@ class Connect(object):
         f = Frame(frame_type, data_array)
         self.connection.write(f.get_array)
         return struct.unpack("B", self.connection.read())[0]
+
+    def is_open(self):
+        return self.connection.isOpen()
+
+    def open(self, port):
+        try:
+            self.connection = serial.Serial(
+                port='\\.\\' + port,
+                baudrate=9600,
+                parity=serial.PARITY_NONE,
+                stopbits=serial.STOPBITS_ONE,
+                bytesize=serial.EIGHTBITS
+            )
+            print("Connected to {}".format(port))
+            return True
+        except serial.SerialException:
+            print("Could not open port {}".format(port))
+            return False
 
     def close(self):
         self.connection.close()

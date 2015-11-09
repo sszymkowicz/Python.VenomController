@@ -2,15 +2,15 @@ from enum import Enum
 
 
 class Request(Enum):
-    Setup = range(100, 101)
+    PID, Weights, Setup = range(100, 103)
 
 
 class Received(Enum):
-    Setup = range(200, 201)
+    PID, Weights, Setup = range(200, 203)
 
 
 class Set(Enum):
-    V, PID, Setup, Start, Stop = range(300, 305)
+    PID, Weights, Setup, Start, Stop = range(300, 305)
 
 
 class Frame(object):
